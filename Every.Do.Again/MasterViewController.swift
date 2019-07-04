@@ -68,15 +68,15 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         alertController.addAction(cancel)
         alertController.addTextField { (textField) -> Void in
             inputTitleField = textField
-            inputTitleField?.placeholder = "Title"
+            inputTitleField?.text = UserDefaults.standard.value(forKey: "initial_title") as? String
         }
         alertController.addTextField { (textField) -> Void in
             inputDescriptionField = textField
-            inputDescriptionField?.placeholder = "Description"
+            inputDescriptionField?.text = UserDefaults.standard.value(forKey: "initial_description") as? String
         }
         alertController.addTextField { (textField) -> Void in
             inputPriorityField = textField
-            inputPriorityField?.placeholder = "Priority integer where 1 is highest"
+            inputPriorityField?.text = UserDefaults.standard.value(forKey: "initial_priority") as? String
         }
         
         present(alertController, animated: true, completion: nil)
@@ -110,6 +110,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel!.text = UserDefaults.standard.value(forKey: "initial_title") as? String
+        let detailLabel = String(format: "%@ : %@", UserDefaults.standard.value(forKey: "initial_priority") as! CVarArg, UserDefaults.standard.value(forKey: "initial_description") as! CVarArg)
+        cell.detailTextLabel!.text = detailLabel
         let toDo = fetchedResultsController.object(at: indexPath)
         configureCell(cell, withToDo: toDo)
         return cell

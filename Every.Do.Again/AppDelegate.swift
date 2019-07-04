@@ -25,6 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
         let controller = masterNavigationController.topViewController as! MasterViewController
         controller.managedObjectContext = self.persistentContainer.viewContext
+        
+        let hasDefaultTodo = UserDefaults.standard.bool(forKey: "initial_todos_set")
+        if !hasDefaultTodo {
+            UserDefaults.standard.set("Do Stuff", forKey: "initial_title")
+            UserDefaults.standard.set("stuff stuff stuff", forKey: "initial_description")
+            UserDefaults.standard.set("1", forKey: "initial_priority")
+            UserDefaults.standard.set(true, forKey: "initial_todos_set")
+        }
         return true
     }
 
